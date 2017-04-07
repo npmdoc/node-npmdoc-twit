@@ -3,9 +3,11 @@
 
 [![NPM](https://nodei.co/npm/twit.png?downloads=true)](https://www.npmjs.com/package/twit)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-twit/build/screen-capture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-twit_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-twit/build..beta..travis-ci.org/apidoc.html)
+[![apidoc](https://npmdoc.github.io/node-npmdoc-twit/build/screenCapture.buildNpmdoc.browser.%2Fhome%2Ftravis%2Fbuild%2Fnpmdoc%2Fnode-npmdoc-twit%2Ftmp%2Fbuild%2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-twit/build/apidoc.html)
 
-![package-listing](https://npmdoc.github.io/node-npmdoc-twit/build/screen-capture.npmPackageListing.svg)
+![npmPackageListing](https://npmdoc.github.io/node-npmdoc-twit/build/screenCapture.npmPackageListing.svg)
+
+![npmPackageDependencyTree](https://npmdoc.github.io/node-npmdoc-twit/build/screenCapture.npmPackageDependencyTree.svg)
 
 
 
@@ -79,26 +81,13 @@
 # <a name="apidoc.tableOfContents"></a>[table of contents](#apidoc.tableOfContents)
 
 #### [module twit](#apidoc.module.twit)
-1.  [function <span class="apidocSignatureSpan">twit.</span>bot (config)](#apidoc.element.twit.bot)
 1.  [function <span class="apidocSignatureSpan">twit.</span>file_uploader (params, twit)](#apidoc.element.twit.file_uploader)
 1.  [function <span class="apidocSignatureSpan">twit.</span>parser ()](#apidoc.element.twit.parser)
 1.  [function <span class="apidocSignatureSpan">twit.</span>streaming_api_connection (reqOpts, twitOptions)](#apidoc.element.twit.streaming_api_connection)
-1.  object <span class="apidocSignatureSpan">twit.</span>bot.prototype
 1.  object <span class="apidocSignatureSpan">twit.</span>file_uploader.prototype
 1.  object <span class="apidocSignatureSpan">twit.</span>helpers
 1.  object <span class="apidocSignatureSpan">twit.</span>parser.prototype
 1.  object <span class="apidocSignatureSpan">twit.</span>streaming_api_connection.prototype
-
-#### [module twit.bot](#apidoc.module.twit.bot)
-1.  [function <span class="apidocSignatureSpan">twit.</span>bot (config)](#apidoc.element.twit.bot.bot)
-
-#### [module twit.bot.prototype](#apidoc.module.twit.bot.prototype)
-1.  [function <span class="apidocSignatureSpan">twit.bot.prototype.</span>favorite (params, callback)](#apidoc.element.twit.bot.prototype.favorite)
-1.  [function <span class="apidocSignatureSpan">twit.bot.prototype.</span>mingle (callback)](#apidoc.element.twit.bot.prototype.mingle)
-1.  [function <span class="apidocSignatureSpan">twit.bot.prototype.</span>prune (callback)](#apidoc.element.twit.bot.prototype.prune)
-1.  [function <span class="apidocSignatureSpan">twit.bot.prototype.</span>retweet (params, callback)](#apidoc.element.twit.bot.prototype.retweet)
-1.  [function <span class="apidocSignatureSpan">twit.bot.prototype.</span>searchFollow (params, callback)](#apidoc.element.twit.bot.prototype.searchFollow)
-1.  [function <span class="apidocSignatureSpan">twit.bot.prototype.</span>tweet (status, callback)](#apidoc.element.twit.bot.prototype.tweet)
 
 #### [module twit.file_uploader](#apidoc.module.twit.file_uploader)
 1.  [function <span class="apidocSignatureSpan">twit.</span>file_uploader (params, twit)](#apidoc.element.twit.file_uploader.file_uploader)
@@ -147,18 +136,6 @@
 
 # <a name="apidoc.module.twit"></a>[module twit](#apidoc.module.twit)
 
-#### <a name="apidoc.element.twit.bot"></a>[function <span class="apidocSignatureSpan">twit.</span>bot (config)](#apidoc.element.twit.bot)
-- description and source-code
-```javascript
-bot = function (config) {
-  this.twit = new Twit(config);
-}
-```
-- example usage
-```shell
-n/a
-```
-
 #### <a name="apidoc.element.twit.file_uploader"></a>[function <span class="apidocSignatureSpan">twit.</span>file_uploader (params, twit)](#apidoc.element.twit.file_uploader)
 - description and source-code
 ```javascript
@@ -199,172 +176,6 @@ streaming_api_connection = function (reqOpts, twitOptions) {
   this.twitOptions = twitOptions
   this._twitter_time_minus_local_time_ms = 0
   EventEmitter.call(this)
-}
-```
-- example usage
-```shell
-n/a
-```
-
-
-
-# <a name="apidoc.module.twit.bot"></a>[module twit.bot](#apidoc.module.twit.bot)
-
-#### <a name="apidoc.element.twit.bot.bot"></a>[function <span class="apidocSignatureSpan">twit.</span>bot (config)](#apidoc.element.twit.bot.bot)
-- description and source-code
-```javascript
-bot = function (config) {
-  this.twit = new Twit(config);
-}
-```
-- example usage
-```shell
-n/a
-```
-
-
-
-# <a name="apidoc.module.twit.bot.prototype"></a>[module twit.bot.prototype](#apidoc.module.twit.bot.prototype)
-
-#### <a name="apidoc.element.twit.bot.prototype.favorite"></a>[function <span class="apidocSignatureSpan">twit.bot.prototype.</span>favorite (params, callback)](#apidoc.element.twit.bot.prototype.favorite)
-- description and source-code
-```javascript
-favorite = function (params, callback) {
-  var self = this;
-
-  self.twit.get('search/tweets', params, function (err, reply) {
-    if(err) return callback(err);
-
-    var tweets = reply.statuses;
-    var randomTweet = randIndex(tweets);
-	if(typeof randomTweet != 'undefined')
-		self.twit.post('favorites/create', { id: randomTweet.id_str }, callback);
-  });
-}
-```
-- example usage
-```shell
-n/a
-```
-
-#### <a name="apidoc.element.twit.bot.prototype.mingle"></a>[function <span class="apidocSignatureSpan">twit.bot.prototype.</span>mingle (callback)](#apidoc.element.twit.bot.prototype.mingle)
-- description and source-code
-```javascript
-mingle = function (callback) {
-  var self = this;
-
-  this.twit.get('followers/ids', function(err, reply) {
-      if(err) { return callback(err); }
-
-      var followers = reply.ids
-        , randFollower  = randIndex(followers);
-
-      self.twit.get('friends/ids', { user_id: randFollower }, function(err, reply) {
-          if(err) { return callback(err); }
-
-          var friends = reply.ids
-            , target  = randIndex(friends);
-
-          self.twit.post('friendships/create', { id: target }, callback);
-        })
-    })
-}
-```
-- example usage
-```shell
-n/a
-```
-
-#### <a name="apidoc.element.twit.bot.prototype.prune"></a>[function <span class="apidocSignatureSpan">twit.bot.prototype.</span>prune (callback)](#apidoc.element.twit.bot.prototype.prune)
-- description and source-code
-```javascript
-prune = function (callback) {
-  var self = this;
-
-  this.twit.get('followers/ids', function(err, reply) {
-      if(err) return callback(err);
-
-      var followers = reply.ids;
-
-      self.twit.get('friends/ids', function(err, reply) {
-          if(err) return callback(err);
-
-          var friends = reply.ids
-            , pruned = false;
-
-          while(!pruned) {
-            var target = randIndex(friends);
-
-            if(!~followers.indexOf(target)) {
-              pruned = true;
-              self.twit.post('friendships/destroy', { id: target }, callback);
-            }
-          }
-      });
-  });
-}
-```
-- example usage
-```shell
-n/a
-```
-
-#### <a name="apidoc.element.twit.bot.prototype.retweet"></a>[function <span class="apidocSignatureSpan">twit.bot.prototype.</span>retweet (params, callback)](#apidoc.element.twit.bot.prototype.retweet)
-- description and source-code
-```javascript
-retweet = function (params, callback) {
-  var self = this;
-
-  self.twit.get('search/tweets', params, function (err, reply) {
-    if(err) return callback(err);
-
-    var tweets = reply.statuses;
-    var randomTweet = randIndex(tweets);
-	if(typeof randomTweet != 'undefined')
-		self.twit.post('statuses/retweet/:id', { id: randomTweet.id_str }, callback);
-  });
-}
-```
-- example usage
-```shell
-n/a
-```
-
-#### <a name="apidoc.element.twit.bot.prototype.searchFollow"></a>[function <span class="apidocSignatureSpan">twit.bot.prototype.</span>searchFollow (params, callback)](#apidoc.element.twit.bot.prototype.searchFollow)
-- description and source-code
-```javascript
-searchFollow = function (params, callback) {
-  var self = this;
-
-  self.twit.get('search/tweets', params, function (err, reply) {
-    if(err) return callback(err);
-
-    var tweets = reply.statuses;
-	var rTweet = randIndex(tweets)
-	if(typeof rTweet != 'undefined')
-	{
-		var target = rTweet.user.id_str;
-
-		self.twit.post('friendships/create', { id: target }, callback);
-	}
-  });
-}
-```
-- example usage
-```shell
-n/a
-```
-
-#### <a name="apidoc.element.twit.bot.prototype.tweet"></a>[function <span class="apidocSignatureSpan">twit.bot.prototype.</span>tweet (status, callback)](#apidoc.element.twit.bot.prototype.tweet)
-- description and source-code
-```javascript
-tweet = function (status, callback) {
-  if(typeof status !== 'string') {
-    return callback(new Error('tweet must be of type String'));
-  } else if(status.length > 140) {
-    return callback(new Error('tweet is too long: ' + status.length));
-  }
-  this.twit.post('statuses/update', { status: status }, callback);
 }
 ```
 - example usage
