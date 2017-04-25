@@ -63,6 +63,15 @@
 
         <li>
 
+            <a class="apidocElementLiA" href="#apidoc.element.twit.twit">
+            function <span class="apidocSignatureSpan"></span>twit
+            <span class="apidocSignatureSpan">(config)</span>
+            </a>
+
+        </li>
+
+        <li>
+
             <a class="apidocElementLiA" href="#apidoc.element.twit.file_uploader">
             function <span class="apidocSignatureSpan">twit.</span>file_uploader
             <span class="apidocSignatureSpan">(params, twit)</span>
@@ -407,6 +416,38 @@
 
 <div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.twit" id="apidoc.module.twit">module twit</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.twit.twit" id="apidoc.element.twit.twit">
+        function <span class="apidocSignatureSpan"></span>twit
+        <span class="apidocSignatureSpan">(config)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">twit = function (config) {
+  if (!(this instanceof Twitter)) {
+    return new Twitter(config);
+  }
+
+  var self = this
+  var credentials = {
+    consumer_key        : config.consumer_key,
+    consumer_secret     : config.consumer_secret,
+    // access_token and access_token_secret only required for user auth
+    access_token        : config.access_token,
+    access_token_secret : config.access_token_secret,
+    // flag indicating whether requests should be made with application-only auth
+    app_only_auth       : config.app_only_auth,
+  }
+
+  this._validateConfigOrThrow(config);
+  this.config = config;
+  this._twitter_time_minus_local_time_ms = 0;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
 
 
     <h2>
@@ -818,7 +859,23 @@ var FileUploader = function (params, twit) {
     return cb(err, body.access_token);
   })
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+ */
+Twitter.prototype._getBearerToken = function (callback) {
+var self = this;
+if (self._bearerToken) {
+  return callback(null, self._bearerToken)
+}
+
+helpers.<span class="apidocCodeKeywordSpan">getBearerToken</span>(self.config.consumer_key, self.config.consumer_secret,
+function (err, bearerToken) {
+  if (err) {
+    // return the fully-qualified Twit Error object to caller
+    callback(err, null);
+    return;
+  }
+  self._bearerToken = bearerToken;
+...</pre></li>
     </ul>
 
 
@@ -839,7 +896,23 @@ var FileUploader = function (params, twit) {
          .replace(/\*/g, &#x22;%2A&#x22;);
   return qs
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+    reqOpts.headers[&#x27;Content-type&#x27;] = &#x27;application/json&#x27;;
+  }
+}
+
+if (Object.keys(finalParams).length) {
+  // not all of the user&#x27;s parameters were used to build the request path
+  // add them as a query string
+  var qs = helpers.<span class="apidocCodeKeywordSpan">makeQueryString</span>(finalParams)
+  reqOpts.url += &#x27;?&#x27; + qs
+}
+
+if (!self.config.app_only_auth) {
+  // with user auth, we can just pass an oauth object to requests
+  // to have the request signed
+  var oauth_ts = Date.now() + self._twitter_time_minus_local_time_ms;
+...</pre></li>
     </ul>
 
 
@@ -905,7 +978,23 @@ var FileUploader = function (params, twit) {
   })
   return path
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+ * @param  {String}   path        REST API resource uri (eg. &#x22;statuses/destroy/:id&#x22;)
+ * @param  {Object}   params      user&#x27;s params object
+ * @param  {Boolean}  isStreaming Flag indicating if it&#x27;s a request to the Streaming API (different endpoint)
+ * @returns {Undefined}
+ *
+ * Calls `callback` with Error, Object where Object is an options object ready to pass to `request()`.
+ *
+ * Returns error raised (if any) by `helpers.<span class="apidocCodeKeywordSpan">moveParamsIntoPath</span>()`
+ */
+Twitter.prototype._buildReqOpts = function (method, path, params, isStreaming, callback) {
+var self = this
+if (!params) {
+  params = {}
+}
+// clone `params` object so we can modify it without modifying the user&#x27;s reference
+...</pre></li>
     </ul>
 
 
